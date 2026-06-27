@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дерево решений | Wine Dataset</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page">
+        <header class="hero">
+            <p class="eyebrow">Практика</p>
+            <h1>Дерево решений для классификации алкоголя</h1>
+            <p class="hero-text">
+                Используется локальный Wine Dataset. Глубина дерева : {{ tree_depth }}.
+                После обучения отображается точность на тестовой выборке и визуальное представление дерева.
+            </p>
+        </header>
+
+        <section class="card train-card">
+            <div>
+                <h2>Запуск обучения</h2>
+                <p class="card-text">
+                    Датасет находится в папке проекта. Внешняя загрузка не выполняется.
+                    Для обучения нажмите кнопку ниже.
+                </p>
+            </div>
+            <button id="trainButton" class="primary-button">Начать обучение</button>
+            <p id="status" class="status">Ожидание запуска обучения.</p>
+            <div id="warning" class="warning hidden"></div>
+        </section>
+
+        <section class="card">
+            <h2>Описание признаков датасета</h2>
+            <div class="features">
+                {% for feature in features %}
+                <div class="feature-item">
+                    <strong>{{ feature.name }}</strong>
+                    <span>{{ feature.title }}</span>
+                    <p>{{ feature.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="resultSection" class="card hidden">
+            <h2>Результат проверки на тестовой выборке</h2>
+            <div class="metrics">
+                <div>
+                    <span>Глубина дерева</span>
+                    <strong id="depthResult">-</strong>
+                </div>
+                <div>
+                    <span>Точность</span>
+                    <strong id="accuracyResult">-</strong>
+                </div>
+                <div>
+                    <span>Верных ответов</span>
+                    <strong id="correctResult">-</strong>
+                </div>
+                <div>
+                    <span>Всего объектов</span>
+                    <strong id="datasetRowsResult">-</strong>
+                </div>
+                <div>
+                    <span>Обучающая выборка</span>
+                    <strong id="trainRowsResult">-</strong>
+                </div>
+                <div>
+                    <span>Тестовая выборка</span>
+                    <strong id="testRowsResult">-</strong>
+                </div>
+            </div>
+        </section>
+
+        <section id="treeSection" class="card hidden">
+            <div class="section-head">
+                <div>
+                    <h2>Графическое представление дерева</h2>
+                </div>
+            </div>
+            <div class="tree-layout">
+                <div class="tree-scroll">
+                    <div id="treeCanvas" class="tree-canvas"></div>
+                </div>
+                <aside id="nodeDetails" class="node-details">
+                    Нажмите на блок дерева, чтобы посмотреть подробную информацию.
+                </aside>
+            </div>
+        </section>
+
+        <section id="previewSection" class="card hidden">
+            <h2>Первые 5 объектов из тестовой выборки</h2>
+            <div class="table-wrap">
+                <table id="previewTable"></table>
+            </div>
+        </section>
+
+        <section id="testSection" class="card hidden">
+            <h2>Проверка на тестовой выборке</h2>
+            <div class="table-wrap">
+                <table id="testTable"></table>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
